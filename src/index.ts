@@ -5,4 +5,3 @@
 export { default as InputComponent } from "./components/InputComponent.vue";
 export { default as SelectComponent } from "./components/SelectComponent.vue";
 export { default as SelectListItem } from "./models/SelectListItem";
-

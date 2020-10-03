@@ -20,7 +20,8 @@ module.exports = {
         library: "keiryo",
         libraryTarget: "umd",
         path: path.resolve(__dirname, "dist"),
-        filename: "index.js"
+        filename: "index.js",
+        sourceMapFilename: "index.js.map"
     },
     externals: [nodeExternals()],
     module: {
@@ -37,6 +38,7 @@ module.exports = {
         ]
     },
     mode: "production",
+    devtool: "source-map",
     plugins: [
         new VueLoaderPlugin()
     ]
