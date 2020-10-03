@@ -9,7 +9,13 @@
             v-slot="{ errors }"
             v-bind:vid="name">
             <label class="label" v-if="label">{{ label }}</label>
-            <input ref="inputElement" @input="onInput()" v-model="internalValue" class="input is-error" v-bind:class="{ errored: errors.length > 0 }" v-bind:type="type" v-bind:name="name" v-bind:maxlength="maxlength" />
+            <input ref="inputElement" class="input is-error" v-bind:class="{ errored: errors.length > 0 }"
+                @input="onInput()"
+                v-model="internalValue"
+                :type="type"
+                :name="name"
+                :maxlength="maxlength"
+            />
         </ValidationProvider>
     </div>
 </template>
