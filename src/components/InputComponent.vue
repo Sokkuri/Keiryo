@@ -24,11 +24,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { ValidationProvider } from "vee-validate";
 
-@Component({
-    components: {
-        ValidationProvider
-    }
-})
+@Component
 export default class InputComponent extends Vue {
     @Prop({required: true}) private name: string;
     @Prop({default: ""}) private label: string;
