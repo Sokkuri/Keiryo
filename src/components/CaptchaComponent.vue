@@ -4,7 +4,14 @@
 
 <template>
     <div class="captcha-component">
-        <vue-hcaptcha ref="captcha" v-if="siteKey" @verify="onVerify" :sitekey="siteKey" :theme="'dark'" :size="size"></vue-hcaptcha>
+        <vue-hcaptcha
+            ref="captcha"
+            v-if="siteKey"
+            @verify="onVerify"
+            :sitekey="siteKey"
+            :theme="'dark'"
+            :size="size">
+        </vue-hcaptcha>
     </div>
 </template>
 
@@ -24,11 +31,11 @@ export default class CaptchaComponent extends Vue {
     private size: string;
 
     created() {
-        this.size = this.visible ? "normal": "invisible";
+        this.size = this.visible ? "normal" : "invisible";
     }
 
     public execute() {
-        (this.$refs.captcha as unknown as HCaptchaMethods).execute();
+        ((this.$refs.captcha as unknown) as HCaptchaMethods).execute();
     }
 
     private onVerify(response: string) {

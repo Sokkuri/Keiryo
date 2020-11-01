@@ -25,12 +25,12 @@ import { ValidationProvider } from "vee-validate";
 
 @Component
 export default class SelectComponent extends Vue {
-    @Prop({required: true}) private name: string;
-    @Prop({default: ""}) private label: string;
-    @Prop({default: ""}) private rules: string;
+    @Prop({ required: true }) private name: string;
+    @Prop({ default: "" }) private label: string;
+    @Prop({ default: "" }) private rules: string;
 
-    @Prop({default: true}) private searchEnabled!: boolean;
-    @Prop({default: false}) protected multiple!: boolean;
+    @Prop({ default: true }) private searchEnabled!: boolean;
+    @Prop({ default: false }) protected multiple!: boolean;
     @Prop() private placeholder!: boolean;
     @Prop() private elements!: SelectListItem[];
 
@@ -91,7 +91,7 @@ export default class SelectComponent extends Vue {
     private updateElementSelection(elements: SelectListItem[]): SelectListItem[] {
         let updatedElements: SelectListItem[] = [];
 
-        elements.forEach(x =>{
+        elements.forEach(x => {
             if (x.value == this.selected) {
                 x.selected = true;
                 updatedElements.push(x);
@@ -117,7 +117,14 @@ export default class SelectComponent extends Vue {
         // Add placeholder when there is no selected item.
         if (this.placeholder && !this.multiple) {
             if (!choices.some(x => x.selected)) {
-                choices.unshift(new SelectListItem({label: "", value: null, selected: true, disabled: true}));
+                choices.unshift(
+                    new SelectListItem({
+                        label: "",
+                        value: null,
+                        selected: true,
+                        disabled: true
+                    })
+                );
 
                 if (this.dropdown) {
                     this.dropdown.setValue([""]);

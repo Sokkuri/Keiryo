@@ -4,13 +4,12 @@
 
 <template>
     <div class="field input-component">
-        <ValidationProvider
-            :rules="rules"
-            :vid="name"
-            v-slot="{ errors }">
+        <ValidationProvider :rules="rules" :vid="name" v-slot="{ errors }">
             <div :class="{ errored: errors.length > 0 }">
                 <label class="label" v-if="label">{{ label }}</label>
-                <input ref="inputElement" class="input"
+                <input
+                    ref="inputElement"
+                    class="input"
                     @input="onInput()"
                     v-model="internalValue"
                     :type="type"
@@ -28,13 +27,13 @@ import { ValidationProvider } from "vee-validate";
 
 @Component
 export default class InputComponent extends Vue {
-    @Prop({required: true}) private name: string;
-    @Prop({default: ""}) private label: string;
-    @Prop({default: ""}) private rules: string;
+    @Prop({ required: true }) private name: string;
+    @Prop({ default: "" }) private label: string;
+    @Prop({ default: "" }) private rules: string;
 
-    @Prop({default: "text"}) private type: string;
-    @Prop({default: 255}) private maxlength: number;
-    @Prop({default: false}) private focus: boolean;
+    @Prop({ default: "text" }) private type: string;
+    @Prop({ default: 255 }) private maxlength: number;
+    @Prop({ default: false }) private focus: boolean;
 
     @Prop() private value: unknown;
     private internalValue: unknown = null;
