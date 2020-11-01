@@ -3,7 +3,17 @@
    - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
 
 <template>
-    <select @change="onSelection" v-model="selected" class="dropdown-component" ref="dropdownElement" />
+    <div class="field select-component">
+        <ValidationProvider
+            :rules="rules"
+            :vid="name"
+            v-slot="{ errors }">
+            <div :class="{ errored: errors.length > 0 }">
+                <label class="label" v-if="label">{{ label }}</label>
+                <select @change="onSelection" v-model="selected" ref="selectElement" />
+            </div>
+        </ValidationProvider>
+    </div>
 </template>
 
 <script lang="ts">
@@ -11,9 +21,14 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import SelectListItem from "../models/SelectListItem";
 import Choices from "choices.js";
 import _ from "lodash";
+import { ValidationProvider } from "vee-validate";
 
 @Component
 export default class SelectComponent extends Vue {
+    @Prop({required: true}) private name: string;
+    @Prop({default: ""}) private label: string;
+    @Prop({default: ""}) private rules: string;
+
     @Prop({default: true}) private searchEnabled!: boolean;
     @Prop({default: false}) protected multiple!: boolean;
     @Prop() private placeholder!: boolean;
@@ -23,7 +38,7 @@ export default class SelectComponent extends Vue {
     private dropdown: Choices;
 
     mounted() {
-        const element: HTMLSelectElement = this.$refs.dropdownElement as HTMLSelectElement;
+        const element: HTMLSelectElement = this.$refs.selectElement as HTMLSelectElement;
         element.multiple = this.multiple;
 
         if (element) {
@@ -100,7 +115,7 @@ export default class SelectComponent extends Vue {
         let choices = elements;
 
         // Add placeholder when there is no selected item.
-        if (this.placeholder) {
+        if (this.placeholder && !this.multiple) {
             if (!choices.some(x => x.selected)) {
                 choices.unshift(new SelectListItem({label: "", value: null, selected: true, disabled: true}));
 
@@ -114,3 +129,15 @@ export default class SelectComponent extends Vue {
     }
 }
 </script>
+
+<style lang="scss">
+@use "../colors.scss";
+
+.select-component {
+    .errored {
+        .choices__inner {
+            border-color: colors.$color-attention;
+        }
+    }
+}
+</style>
