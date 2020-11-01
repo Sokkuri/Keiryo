@@ -3,19 +3,21 @@
    - file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
 
 <template>
-    <div class="field">
+    <div class="field input-component">
         <ValidationProvider
-            v-bind:rules="rules"
-            v-slot="{ errors }"
-            v-bind:vid="name">
-            <label class="label" v-if="label">{{ label }}</label>
-            <input ref="inputElement" class="input is-error" v-bind:class="{ errored: errors.length > 0 }"
-                @input="onInput()"
-                v-model="internalValue"
-                :type="type"
-                :name="name"
-                :maxlength="maxlength"
-            />
+            :rules="rules"
+            :vid="name"
+            v-slot="{ errors }">
+            <div :class="{ errored: errors.length > 0 }">
+                <label class="label" v-if="label">{{ label }}</label>
+                <input ref="inputElement" class="input"
+                    @input="onInput()"
+                    v-model="internalValue"
+                    :type="type"
+                    :name="name"
+                    :maxlength="maxlength"
+                />
+            </div>
         </ValidationProvider>
     </div>
 </template>
@@ -28,10 +30,11 @@ import { ValidationProvider } from "vee-validate";
 export default class InputComponent extends Vue {
     @Prop({required: true}) private name: string;
     @Prop({default: ""}) private label: string;
+    @Prop({default: ""}) private rules: string;
+
     @Prop({default: "text"}) private type: string;
     @Prop({default: 255}) private maxlength: number;
     @Prop({default: false}) private focus: boolean;
-    @Prop({default: ""}) private rules: string;
 
     @Prop() private value: unknown;
     private internalValue: unknown = null;
@@ -52,3 +55,15 @@ export default class InputComponent extends Vue {
     }
 }
 </script>
+
+<style lang="scss">
+@use "../colors.scss";
+
+.input-component {
+    .errored {
+        input {
+            border-color: colors.$color-attention;
+        }
+    }
+}
+</style>
