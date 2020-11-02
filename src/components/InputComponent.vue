@@ -23,7 +23,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { ValidationProvider } from "vee-validate";
 
 @Component
 export default class InputComponent extends Vue {

@@ -21,7 +21,6 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import SelectListItem from "../models/SelectListItem";
 import Choices from "choices.js";
 import _ from "lodash";
-import { ValidationProvider } from "vee-validate";
 
 @Component
 export default class SelectComponent extends Vue {
