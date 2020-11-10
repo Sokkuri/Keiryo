@@ -44,7 +44,8 @@ export default class InputComponent extends Vue {
         }
     }
 
-    @Watch("value") onValueChange() {
+    @Watch("value", { immediate: true }) onValueChange() {
+        // Through the immediate flag the initial value will be set into the internal value.
         this.internalValue = this.value;
     }
 
