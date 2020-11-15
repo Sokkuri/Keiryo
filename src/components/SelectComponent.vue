@@ -10,7 +10,12 @@
             v-slot="{ errors }">
             <div :class="{ errored: errors.length > 0 }">
                 <label class="label" v-if="label">{{ label }}</label>
-                <select @change="onSelection" v-model="selected" ref="selectElement" />
+                <select
+                    @change="onSelection()"
+                    @search="$emit('search', $event)"
+                    v-model="selected"
+                    ref="selectElement"
+                />
             </div>
         </ValidationProvider>
     </div>
@@ -28,12 +33,12 @@ export default class SelectComponent extends Vue {
     @Prop({ default: "" }) private label: string;
     @Prop({ default: "" }) private rules: string;
 
-    @Prop({ default: true }) private searchEnabled!: boolean;
-    @Prop({ default: false }) protected multiple!: boolean;
-    @Prop() private placeholder!: boolean;
-    @Prop() private elements!: SelectListItem[];
+    @Prop({ default: true }) private searchEnabled: boolean;
+    @Prop({ default: false }) protected multiple: boolean;
+    @Prop({ default: true }) private placeholder: boolean;
+    @Prop({ required: true }) private elements: SelectListItem[];
 
-    private selected: any = null;
+    private selected: string | string[] = [];
     private dropdown: Choices;
 
     mounted() {
@@ -116,14 +121,12 @@ export default class SelectComponent extends Vue {
         // Add placeholder when there is no selected item.
         if (this.placeholder && !this.multiple) {
             if (!choices.some(x => x.selected)) {
-                choices.unshift(
-                    new SelectListItem({
-                        label: "",
-                        value: null,
-                        selected: true,
-                        disabled: true
-                    })
-                );
+                choices.unshift({
+                    label: "",
+                    value: null,
+                    selected: true,
+                    disabled: true
+                });
 
                 if (this.dropdown) {
                     this.dropdown.setValue([""]);
