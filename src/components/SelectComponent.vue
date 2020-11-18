@@ -5,6 +5,7 @@
 <template>
     <div class="field select-component">
         <ValidationProvider
+            tag="div"
             :rules="rules"
             :vid="name"
             v-slot="{ errors }">

@@ -4,7 +4,11 @@
 
 <template>
     <div class="field input-component">
-        <ValidationProvider :rules="rules" :vid="name" v-slot="{ errors }">
+        <ValidationProvider
+            tag="div"
+            :rules="rules"
+            :vid="name"
+            v-slot="{ errors }">
             <div :class="{ errored: errors.length > 0 }">
                 <label class="label" v-if="label">{{ label }}</label>
                 <input
