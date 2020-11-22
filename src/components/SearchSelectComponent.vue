@@ -35,6 +35,7 @@ export default class SearchSelectComponent extends Vue {
     @Prop({ default: "" }) private rules: string;
 
     @Prop({ default: false }) private multiple: boolean;
+    @Prop({ default: 3 }) private minLength: number;
     @Prop({ required: true }) private executeSearch: (searchTerm: string) => Promise<BaseSelectListItem[]>;
 
     private elements: SelectListItem[] = [];
@@ -43,13 +44,15 @@ export default class SearchSelectComponent extends Vue {
     private onSearch = _.debounce(this.search, 700);
 
     private async search(evt: CustomEvent<{ value: string, resultCount: number }>) {
-        const results = await this.executeSearch(evt.detail.value);
+        if (evt.detail.value.length >= this.minLength) {
+            const results = await this.executeSearch(evt.detail.value);
 
-        if (this.multiple) {
-            // Prevent duplicate values
-            this.elements = results.filter(x => !(this.selected as string[]).some(y => x.value == y));
-        } else {
-            this.elements = results;
+            if (this.multiple) {
+                // Prevent duplicate values
+                this.elements = results.filter(x => !(this.selected as string[]).some(y => x.value == y));
+            } else {
+                this.elements = results;
+            }
         }
     }
 
