@@ -9,7 +9,7 @@
             :rules="rules"
             :vid="name"
             v-slot="{ errors }">
-            <div :class="{ errored: errors.length > 0 }">
+            <div class="field-container" :class="{ 'errored': errors.length > 0 }">
                 <label class="label" v-if="label">{{ label }}</label>
                 <select
                     @change="onSelection()"
