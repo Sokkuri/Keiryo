@@ -10,7 +10,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://gitlab.com/sokkuri/keiryo"
+        "url": "https://github.com/Sokkuri/Keiryo"
     },
     "scripts": {
         "build": "webpack"
