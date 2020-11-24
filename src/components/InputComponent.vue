@@ -19,7 +19,7 @@
                     :type="type"
                     :name="name"
                     :maxlength="maxlength"
-                    :placeholder="placeHolder"
+                    :placeholder="placeholder"
                 />
             </div>
         </ValidationProvider>
@@ -37,8 +37,8 @@ export default class InputComponent extends Vue {
 
     @Prop({ default: "text" }) private type: string;
     @Prop({ default: 255 }) private maxlength: number;
-    @Prop({ default: "" }) private placeHolder: string;
     @Prop({ default: false }) private focus: boolean;
+    @Prop() private placeholder: string;
 
     @Prop() private value: unknown;
     private internalValue: unknown = null;
