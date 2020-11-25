@@ -40,7 +40,7 @@ export default class SelectComponent extends Vue {
     @Prop({ required: true }) private elements: SelectListItem[];
 
     private selected: string | string[] = [];
-    private dropdown: Choices;
+    private instance: Choices;
 
     mounted() {
         const element: HTMLSelectElement = this.$refs.selectElement as HTMLSelectElement;
@@ -49,7 +49,7 @@ export default class SelectComponent extends Vue {
         if (element) {
             let choices: SelectListItem[] = this.prepareElements();
 
-            this.dropdown = new Choices(element, {
+            this.instance = new Choices(element, {
                 searchEnabled: this.searchEnabled,
                 choices: choices,
                 items: [],
@@ -57,6 +57,8 @@ export default class SelectComponent extends Vue {
                 loadingText: "",
                 removeItemButton: this.multiple
             });
+
+            this.$emit("created", this.instance);
         }
 
         // When elements are present on creation then map the selection and add it to the v-model.
@@ -112,8 +114,8 @@ export default class SelectComponent extends Vue {
     private updateChoices(elements: SelectListItem[]) {
         const newElements = this.prepareElements(elements);
 
-        this.dropdown.clearChoices();
-        this.dropdown.setChoices(newElements);
+        this.instance.clearChoices();
+        this.instance.setChoices(newElements);
     }
 
     private prepareElements(elements: SelectListItem[] = this.elements): SelectListItem[] {
@@ -129,8 +131,8 @@ export default class SelectComponent extends Vue {
                     disabled: true
                 });
 
-                if (this.dropdown) {
-                    this.dropdown.setValue([""]);
+                if (this.instance) {
+                    this.instance.setValue([ "" ]);
                 }
             }
         }
