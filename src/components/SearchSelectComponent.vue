@@ -9,7 +9,7 @@
             :label="label"
             :rules="rules"
             :multiple="multiple"
-            :elements="elements"
+            :elements="items"
             @search="onSearch"
             @selection="onSelection"
             v-model="selected"
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import SelectComponent from "./SelectComponent.vue";
 import SelectListItem from "../models/SelectListItem";
 import BaseSelectListItem from "../models/BaseSelectListItem";
@@ -36,10 +36,17 @@ export default class SearchSelectComponent extends Vue {
 
     @Prop({ default: false }) private multiple: boolean;
     @Prop({ default: 3 }) private minLength: number;
+    @Prop() private elements: SelectListItem[];
     @Prop({ required: true }) private executeSearch: (searchTerm: string) => Promise<BaseSelectListItem[]>;
 
-    private elements: SelectListItem[] = [];
+    private items: SelectListItem[] = [];
     private selected: string | string[] = [];
+
+    @Watch("elements", { immediate: true }) private onElementsChange() {
+        if (this.elements) {
+            this.items = this.elements;
+        }
+    }
 
     private onSearch = _.debounce(this.search, 700);
 
@@ -49,9 +56,9 @@ export default class SearchSelectComponent extends Vue {
 
             if (this.multiple) {
                 // Prevent duplicate values
-                this.elements = results.filter(x => !(this.selected as string[]).some(y => x.value == y));
+                this.items = results.filter(x => !(this.selected as string[]).some(y => x.value == y));
             } else {
-                this.elements = results;
+                this.items = results;
             }
         }
     }
