@@ -8,3 +8,4 @@ export { default as SearchSelectComponent } from "./components/SearchSelectCompo
 export { default as SelectComponent } from "./components/SelectComponent.vue";
 export { default as BaseSelectListItem } from "./models/BaseSelectListItem";
 export { default as SelectListItem } from "./models/SelectListItem";
+export { default as SelectListItemUtils } from "./utilities/SelectListItemUtils";
