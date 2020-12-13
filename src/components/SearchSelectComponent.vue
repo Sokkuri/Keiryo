@@ -45,6 +45,7 @@ export default class SearchSelectComponent extends Vue {
     @Watch("elements", { immediate: true }) private onElementsChange() {
         if (this.elements) {
             this.items = this.elements;
+            this.onSelection(this.items.map(x => x.value));
         }
     }
 
