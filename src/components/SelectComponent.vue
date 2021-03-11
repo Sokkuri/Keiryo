@@ -47,11 +47,9 @@ export default class SelectComponent extends Vue {
         element.multiple = this.multiple;
 
         if (element) {
-            let choices: SelectListItem[] = this.prepareElements();
-
             this.instance = new Choices(element, {
                 searchEnabled: this.searchEnabled,
-                choices: choices,
+                choices: [],
                 items: [],
                 itemSelectText: "",
                 loadingText: "",
@@ -61,83 +59,68 @@ export default class SelectComponent extends Vue {
             this.$emit("created", this.instance);
         }
 
-        // When elements are present on creation then map the selection and add it to the v-model.
+        // When elements are present on creation then update the selection and items.
         if (this.elements.length > 0) {
-            this.mapElementSelectionToSelection();
-            this.$emit("input", this.selected);
+            this.updateSelection(this.elements);
+            this.updateItems(this.elements);
+            this.emitSelection();
         }
+    }
+
+    beforeDestroy() {
+        this.instance.destroy();
     }
 
     @Watch("elements") onElementChange() {
-        this.mapElementSelectionToSelection();
-        this.updateChoices(this.updateElementSelection(this.elements));
-    }
-
-    private mapElementSelectionToSelection() {
-        const selectedItems = this.elements.filter(x => x.selected && x.value);
-
-        if (!this.multiple) {
-            this.selected = _.first(selectedItems)?.value;
-        } else {
-            this.selected = selectedItems.map(x => x.value);
-        }
+        this.updateSelection(this.elements);
+        this.updateItems(this.elements);
+        this.emitSelection();
     }
 
     private onSelection() {
         this.$nextTick(() => {
             if (!this.multiple) {
-                const updatedElements = this.updateElementSelection(this.elements);
-                this.updateChoices(updatedElements);
+                this.updateItems(this.elements);
             }
 
-            this.$emit("input", this.selected);
-            this.$emit("selection", this.selected);
+            this.emitSelection();
         });
     }
 
-    private updateElementSelection(elements: SelectListItem[]): SelectListItem[] {
-        let updatedElements: SelectListItem[] = [];
+    private updateItems(items: SelectListItem[]) {
+        // Update item selection
+        let updatedElements = items.map(x => ({
+            label: x.label,
+            value: x.value,
+            selected: this.multiple ? (this.selected as string[]).some(y => x.value == y) : (this.selected as string) == x.value
+        } as SelectListItem));
 
-        elements.forEach(x => {
-            if (x.value == this.selected) {
-                x.selected = true;
-                updatedElements.push(x);
-            } else {
-                x.selected = false;
-                updatedElements.push(x);
-            }
-        });
+        // Add placeholder when its necessary
+        if (this.placeholder && !this.multiple && !updatedElements.some(x => x.selected)) {
+            updatedElements.unshift({
+                label: "",
+                value: null,
+                selected: true,
+                disabled: true
+            });
 
-        return updatedElements;
-    }
-
-    private updateChoices(elements: SelectListItem[]) {
-        const newElements = this.prepareElements(elements);
-
-        this.instance.clearChoices();
-        this.instance.setChoices(newElements);
-    }
-
-    private prepareElements(elements: SelectListItem[] = this.elements): SelectListItem[] {
-        let choices = elements;
-
-        // Add placeholder when there is no selected item.
-        if (this.placeholder && !this.multiple) {
-            if (!choices.some(x => x.selected)) {
-                choices.unshift({
-                    label: "",
-                    value: null,
-                    selected: true,
-                    disabled: true
-                });
-
-                if (this.instance) {
-                    this.instance.setValue([ "" ]);
-                }
-            }
+            this.instance.setValue([ "" ]);
         }
 
-        return choices;
+        // Update choices
+        this.instance.clearChoices();
+        this.instance.clearStore();
+        this.instance.setChoices(updatedElements);
+    }
+
+    private updateSelection(items: SelectListItem[]) {
+        const selectedItems = items.filter(x => x.selected && x.value);
+        this.selected = this.multiple ? selectedItems.map(x => x.value) : _.first(selectedItems)?.value;
+    }
+
+    private emitSelection() {
+        this.$emit("input", this.selected);
+        this.$emit("selection", this.selected);
     }
 }
 </script>
