@@ -1,5 +1,5 @@
 # Keiryo
-[![ci](https://gitlab.com/sokkuri/keiryo/badges/master/pipeline.svg?style=flat)](https://gitlab.com/sokkuri/Keiryo/-/commits/master)
+[![ci](https://github.com/Sokkuri/Keiryo/workflows/CI/badge.svg)](https://github.com/Sokkuri/Keiryo/commits/master)
 [![npm](https://img.shields.io/npm/v/keiryo.svg)](https://www.npmjs.com/package/keiryo)
 
 Vue components collection
