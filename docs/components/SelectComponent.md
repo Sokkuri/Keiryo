@@ -11,9 +11,9 @@
 
 ## API
 ### Props
-| Name | Type | Default |
-| --- | --- | --- |
-| `Name` | string | **required** |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `Name` | string | **required** | Needs to be unique |
 | `Label` | string | *undefined* |
 | `Rules` | string | *undefined* |
 | `Elements` | [SelectListItem](https://github.com/Sokkuri/Keiryo/blob/master/src/models/SelectListItem.ts)[] | **required** |
