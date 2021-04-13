@@ -17,8 +17,8 @@
 | `Rules` | string | *undefined* |
 | `Type` | string | text |
 | `Maxlength` | number | 255 |
-| `Placeholder` | string | 3 |
-| `Value` | string | string/number |
+| `Placeholder` | string | - |
+| `Value` | string | - |
 
 ### Events
 | Name | Description |
