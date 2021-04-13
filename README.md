@@ -14,3 +14,9 @@ Build:
 ```
 npm run build
 ```
+
+## Usage
+* [InputComponent](https://github.com/Sokkuri/Keiryo/blob/master/docs/components/InputComponent.md)
+* [SelectComponent](https://github.com/Sokkuri/Keiryo/blob/master/docs/components/SelectComponent.md)
+* [SearchSelectComponent](https://github.com/Sokkuri/Keiryo/blob/master/docs/components/SearchSelectComponent.md)
+
