@@ -37,22 +37,19 @@ export default class InputComponent extends Vue {
 
     @Prop({ default: "text" }) private type: string;
     @Prop({ default: 255 }) private maxlength: number;
-    @Prop({ default: false }) private focus: boolean;
     @Prop() private placeholder: string;
 
     @Prop() private value: unknown;
     private internalValue: unknown = null;
 
-    mounted() {
-        if (this.focus) {
-            const element = this.$refs.inputElement as HTMLInputElement;
-            element.focus();
-        }
-    }
-
     @Watch("value", { immediate: true }) onValueChange() {
         this.internalValue = this.value;
         this.$emit("input", this.internalValue);
+    }
+
+    public focus() {
+        const element = this.$refs.inputElement as HTMLInputElement;
+        element.focus();
     }
 
     private onInput() {
