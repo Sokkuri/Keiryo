@@ -40,7 +40,7 @@
         "vue-property-decorator": "^9.0.0",
         "sass": "^1.30.0",
         "sass-loader": "^11.0.1",
-        "css-loader": "^5.0.0",
+        "css-loader": "^6.2.0",
         "style-loader": "^2.0.0",
         "eslint": "^7.15.0"
     }
