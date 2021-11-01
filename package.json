@@ -16,7 +16,7 @@
         "build": "webpack"
     },
     "dependencies": {
-        "@hcaptcha/vue-hcaptcha": "^0.2.4",
+        "@hcaptcha/vue-hcaptcha": "^0.3.1",
         "choices.js": "^9.0.1",
         "lodash": "^4.17.20",
         "vee-validate": "^3.4.3"
